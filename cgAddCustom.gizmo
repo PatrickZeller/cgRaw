@@ -1,0 +1,53 @@
+#! /home/patrick/Application/Nuke12.0v2/libnuke-12.0.2.so -nx
+version 12.0 v2
+Group {
+ inputs 2
+ name "cgAddCustom"
+ tile_color 0x151515ff
+ label "light: \[value lightname]\nlobe: \[value componentname]"
+ note_font_color 0x68f2ff
+ knobChanged "node = nuke.thisNode()\nknob = nuke.thisKnob()\nfilterparm = \['lightname', 'componentname']\nfor k in filterparm:\n    if knob.name() == k:\n        cgRaw.update_addcustom(node)"
+ addUserKnob {20 settings l Settings}
+ addUserKnob {1 lightname l Light t "input the name of the light you want to add"}
+ lightname custom
+ addUserKnob {1 componentname l Lobe t "input the name of the component/lobe you want to add" -STARTLINE}
+ componentname custom
+}
+ Input {
+  inputs 0
+  name custom
+  xpos 671
+  ypos -880
+  number 1
+ }
+ Input {
+  inputs 0
+  name rendering
+  xpos 503
+  ypos -900
+ }
+ ShuffleCopy {
+  inputs 2
+  red red
+  green green
+  blue blue
+  out rgb
+  name addCustom
+  xpos 503
+  ypos -779
+ }
+ Expression {
+  temp_expr0 _col_
+  expr0 "\[join \[lsearch -inline -all \[channels this] *\[value temp_expr0]*.red*] +]"
+  expr1 "\[join \[lsearch -inline -all \[channels this] *\[value temp_expr0]*.green*] +]"
+  expr2 "\[join \[lsearch -inline -all \[channels this] *\[value temp_expr0]*.blue*] +]"
+  name develope
+  xpos 503
+  ypos -617
+ }
+ Output {
+  name Output1
+  xpos 503
+  ypos -576
+ }
+end_group
