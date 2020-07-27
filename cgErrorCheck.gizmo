@@ -1,62 +1,105 @@
-#! /home/patrick/Application/Nuke12.0v2/libnuke-12.0.2.so -nx
-version 12.0 v2
+#! Y:/Applications/nuke_12.1v1/nuke-12.1.1.dll -nx
+version 12.1 v1
 Gizmo {
  name "cgErrorCheck"
  tile_color 0x151515ff
  note_font_color 0x68f2ff
  addUserKnob {20 settings}
+ addUserKnob {6 preview t "shows the error of the pass composition" +STARTLINE}
  addUserKnob {6 fix t "adds a channel that fixes the missing information" +STARTLINE}
  fix true
 }
  Input {
   inputs 0
-  name Input1
+  name rendering
   xpos 397
-  ypos -473
+  ypos -499
  }
  Dot {
   name Dot2
   xpos 431
   ypos -433
  }
-set N2522ff40 [stack 0]
-push $N2522ff40
+set Nb6c4cc00 [stack 0]
+ Dot {
+  name Dot1
+  xpos 223
+  ypos -433
+ }
+ Dot {
+  name Dot4
+  xpos 223
+  ypos -205
+ }
+set Nb6c4c400 [stack 0]
+ Dot {
+  name Dot3
+  selected true
+  xpos 223
+  ypos -31
+ }
+push $Nb6c4cc00
+push $Nb6c4cc00
  Expression {
   temp_expr0 _col_
   expr0 "\[join \[lsearch -inline -all \[channels this] *_col_*.red*] +]"
   expr1 "\[join \[lsearch -inline -all \[channels this] *_col_*.green*] +]"
   expr2 "\[join \[lsearch -inline -all \[channels this] *_col_*.blue*] +]"
+  expr3 a
   name develope
-  xpos 321
-  ypos -352
+  xpos 312
+  ypos -355
  }
  Merge2 {
   inputs 2
   operation minus
   name Merge1
   xpos 397
-  ypos -281
+  ypos -270
  }
-set N25045f70 [stack 0]
+set Nb5ee1800 [stack 0]
+push $Nb6c4c400
+push $Nb5ee1800
 add_layer {missing_col_missing missing_col_missing.red missing_col_missing.green missing_col_missing.blue}
- Shuffle {
-  out missing_col_missing
-  name Shuffle1
-  xpos 326
-  ypos -213
- }
-push $N25045f70
- Switch {
+ ShuffleCopy {
   inputs 2
+  green2 alpha
+  out missing_col_missing
+  out2 rgba
+  name ShuffleCopy1
+  xpos 309
+  ypos -209
+ }
+push $Nb5ee1800
+ Switch {
+  inputs 3
   which {{fix}}
   name Switch1
-  selected true
   xpos 397
-  ypos -154
+  ypos -96
+ }
+ ShuffleCopy {
+  inputs 2
+  red red
+  green green
+  blue blue
+  green2 alpha
+  name ShuffleCopy2
+  xpos 397
+  ypos -35
+  disable {{preview}}
  }
  Output {
   name Output1
   xpos 397
-  ypos -56
+  ypos 30
+ }
+ Viewer {
+  frame_range 0-1100
+  fps 25
+  viewerProcess "Rec.709 HCR4 (SL)"
+  name Viewer1
+  xpos 397
+  ypos 137
  }
 end_group

@@ -1,12 +1,12 @@
-#! /home/patrick/Application/Nuke12.0v2/libnuke-12.0.2.so -nx
-version 12.0 v2
+#! Y:/Applications/nuke_12.1v1/nuke-12.1.1.dll -nx
+version 12.1 v1
 Group {
  inputs 2
  name "cgIsolate"
+ knobChanged "node = nuke.thisNode()\nknob = nuke.thisKnob()\nfilterparm = \['lightfilter', 'componentfilter', 'invertcomponentfilter', 'invertlightfilter']\nfor k in filterparm:\n    if knob.name() == k:\n        cgRaw.update_isolate(node)"
  tile_color 0x151515ff
  label "light: \[value lightfilter]\nlobe: \[value componentfilter]"
  note_font_color 0x68f2ff
- knobChanged "node = nuke.thisNode()\nknob = nuke.thisKnob()\nfilterparm = \['lightfilter', 'componentfilter', 'invertcomponentfilter', 'invertlightfilter']\nfor k in filterparm:\n    if knob.name() == k:\n        cgRaw.update_isolate(node)"
  addUserKnob {20 isolate l Isolate}
  addUserKnob {1 lightfilter l Lights t "type the name of the lights you want to select, seperated by sapces. \"*\" selects every light in the scene"}
  lightfilter *
@@ -18,41 +18,81 @@ Group {
  addUserKnob {6 invertcomponentfilter l invert t "inverts component filter" -STARTLINE}
  addUserKnob {22 force_update l update T cgRaw.update_isolate(nuke.thisNode()) +STARTLINE}
  addUserKnob {26 ""}
+ addUserKnob {41 maskChannelMask l mask T mask_dx.maskChannelMask}
+ addUserKnob {41 maskChannelInput l "" -STARTLINE T mask_dx.maskChannelInput}
+ addUserKnob {41 inject -STARTLINE T mask_dx.inject}
+ addUserKnob {41 invert_mask l invert -STARTLINE T mask_dx.invert_mask}
+ addUserKnob {41 fringe -STARTLINE T mask_dx.fringe}
 }
- Input {
-  inputs 0
-  name mask
-  xpos 330
-  ypos -115
-  number 1
- }
  Input {
   inputs 0
   name rendering
   xpos 0
   ypos -181
  }
+set Nad0a7c00 [stack 0]
+ Input {
+  inputs 0
+  name mask
+  xpos 330
+  ypos -175
+  number 1
+ }
+ Switch {
+  inputs 2
+  which {{"1-\[exists parent.input1]" x59 0}}
+  name Switch1
+  xpos 254
+  ypos -96
+ }
+ Invert {
+  name Invert1
+  xpos 254
+  ypos -14
+ }
+ Dot {
+  name Dot3
+  xpos 288
+  ypos 189
+ }
+push $Nad0a7c00
+ Dot {
+  name Dot1
+  xpos -148
+  ypos -83
+ }
+ Dot {
+  name Dot2
+  xpos -148
+  ypos 189
+ }
+push $Nad0a7c00
  Expression {
-  inputs 1+1
-  expr0 "rim_lgh_col_sss.red + rim_lgh_col_coat.red + rim_lgh_col_diffuse.red + key_lgh_col_refract.red + key_lgh_col_diffuse.red + key_lgh_col_reflect.red + missing_col_missing.red + fill_lgh_col_refract.red + key_lgh_col_volume.red + fill_lgh_col_sss.red + rim_lgh_col_reflect.red + rim_lgh_col_refract.red + env_lgh_col_refract.red + env_lgh_col_diffuse.red + env_lgh_col_reflect.red + fill_lgh_col_coat.red + env_lgh_col_volume.red + key_lgh_col_coat.red + env_lgh_col_sss.red + fill_lgh_col_reflect.red + fill_lgh_col_volume.red + fill_lgh_col_diffuse.red + env_lgh_col_coat.red + rim_lgh_col_volume.red"
-  expr1 "rim_lgh_col_sss.green + rim_lgh_col_coat.green + rim_lgh_col_diffuse.green + key_lgh_col_refract.green + key_lgh_col_diffuse.green + key_lgh_col_reflect.green + missing_col_missing.green + fill_lgh_col_refract.green + key_lgh_col_volume.green + fill_lgh_col_sss.green + rim_lgh_col_reflect.green + rim_lgh_col_refract.green + env_lgh_col_refract.green + env_lgh_col_diffuse.green + env_lgh_col_reflect.green + fill_lgh_col_coat.green + env_lgh_col_volume.green + key_lgh_col_coat.green + env_lgh_col_sss.green + fill_lgh_col_reflect.green + fill_lgh_col_volume.green + fill_lgh_col_diffuse.green + env_lgh_col_coat.green + rim_lgh_col_volume.green"
-  expr2 "rim_lgh_col_sss.blue + rim_lgh_col_coat.blue + rim_lgh_col_diffuse.blue + key_lgh_col_refract.blue + key_lgh_col_diffuse.blue + key_lgh_col_reflect.blue + missing_col_missing.blue + fill_lgh_col_refract.blue + key_lgh_col_volume.blue + fill_lgh_col_sss.blue + rim_lgh_col_reflect.blue + rim_lgh_col_refract.blue + env_lgh_col_refract.blue + env_lgh_col_diffuse.blue + env_lgh_col_reflect.blue + fill_lgh_col_coat.blue + env_lgh_col_volume.blue + key_lgh_col_coat.blue + env_lgh_col_sss.blue + fill_lgh_col_reflect.blue + fill_lgh_col_volume.blue + fill_lgh_col_diffuse.blue + env_lgh_col_coat.blue + rim_lgh_col_volume.blue"
+  channel3 {none none none -rgba.alpha}
   name master
   xpos 0
-  ypos -2
+  ypos 14
+ }
+ Dissolve {
+  inputs 2+1
+  which 1
+  maskChannelMask none
+  name mask_dx
+  xpos 0
+  ypos 179
  }
  Output {
   name Output1
   xpos 0
-  ypos 1195
+  ypos 299
  }
  Viewer {
   frame 0
   frame_range 1-100
   fps 25
-  viewerProcess "Rec.709 Alexa (Display)"
+  viewerProcess "Rec.709 Alexa (SL)"
   name Viewer1
-  xpos 377
-  ypos 1364
+  xpos 183
+  ypos 713
  }
 end_group

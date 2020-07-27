@@ -1,12 +1,12 @@
-#! /home/patrick/Application/Nuke12.0v2/libnuke-12.0.2.so -nx
-version 12.0 v2
-Group {
+#! Y:/Applications/nuke_12.1v1/nuke-12.1.1.dll -nx
+version 12.1 v1
+Gizmo {
  inputs 2
  name "cgHueShift"
+ knobChanged "node = nuke.thisNode()\nknob = nuke.thisKnob()\nfilterparm = \['lightfilter', 'componentfilter', 'invertcomponentfilter', 'invertlightfilter']\nfor k in filterparm:\n    if knob.name() == k:\n        cgRaw.update_insides(node)"
  tile_color 0x151515ff
  label "light: \[value lightfilter]\nlobe: \[value componentfilter]"
  note_font_color 0x68f2ff
- knobChanged "node = nuke.thisNode()\nknob = nuke.thisKnob()\nfilterparm = \['lightfilter', 'componentfilter', 'invertcomponentfilter', 'invertlightfilter']\nfor k in filterparm:\n    if knob.name() == k:\n        cgRaw.update_insides(node)"
  addUserKnob {20 hueshift l HueShift}
  addUserKnob {1 lightfilter l Lights t "type the name of the lights you want to select, seperated by sapces. \"*\" selects every light in the scene"}
  lightfilter *
@@ -25,56 +25,92 @@ Group {
  addUserKnob {41 color_saturation l "saturation along axis" T master.color_saturation}
  addUserKnob {41 hue_rotation l "hue rotation" T master.hue_rotation}
  addUserKnob {41 brightness T master.brightness}
- addUserKnob {26 "" l mask T ""}
- addUserKnob {41 maskChannelInput l "" -STARTLINE T master.maskChannelInput}
- addUserKnob {41 inject -STARTLINE T master.inject}
- addUserKnob {41 invert_mask l invert -STARTLINE T master.invert_mask}
- addUserKnob {41 fringe -STARTLINE T master.fringe}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {41 maskChannelMask l mask -STARTLINE T mask_dx.maskChannelMask}
+ addUserKnob {41 maskChannelInput l "" -STARTLINE T mask_dx.maskChannelInput}
+ addUserKnob {41 inject -STARTLINE T mask_dx.inject}
+ addUserKnob {41 invert_mask l invert -STARTLINE T mask_dx.invert_mask}
+ addUserKnob {41 fringe -STARTLINE T mask_dx.fringe}
  addUserKnob {41 unpremult l "(un)premult by" T master.unpremult}
  addUserKnob {41 invert_unpremult l invert -STARTLINE T master.invert_unpremult}
  addUserKnob {41 mix T master.mix}
 }
  Input {
   inputs 0
-  name mask
-  xpos 330
-  ypos -115
-  number 1
- }
- Input {
-  inputs 0
   name rendering
   xpos 0
   ypos -181
  }
-add_layer {rim_lgh_col_sss rim_lgh_col_sss.red rim_lgh_col_sss.green rim_lgh_col_sss.blue}
+set Nab7dd400 [stack 0]
+ Input {
+  inputs 0
+  name mask
+  xpos 282
+  ypos -186
+  number 1
+ }
+ Switch {
+  inputs 2
+  which {{"1-\[exists parent.input1]" x59 0}}
+  name Switch1
+  xpos 241
+  ypos -96
+ }
+ Invert {
+  name Invert1
+  xpos 241
+  ypos -36
+ }
+ Dot {
+  name Dot3
+  xpos 275
+  ypos 1504
+ }
+push $Nab7dd400
+ Dot {
+  name Dot1
+  xpos -152
+  ypos -93
+ }
+ Dot {
+  name Dot2
+  xpos -152
+  ypos 1504
+ }
+push $Nab7dd400
  HueShift {
-  inputs 1+1
-  channels rim_lgh_col_sss
+  channels all
   name master
   xpos 0
-  ypos -37
+  ypos -36
  }
  Expression {
-  temp_expr0 _col_
   expr0 "\[join \[lsearch -inline -all \[channels this] *_col_*.red*] +]"
   expr1 "\[join \[lsearch -inline -all \[channels this] *_col_*.green*] +]"
   expr2 "\[join \[lsearch -inline -all \[channels this] *_col_*.blue*] +]"
   name develope
   xpos 0
-  ypos 1155
+  ypos 1455
+ }
+ Dissolve {
+  inputs 2+1
+  which 1
+  maskChannelMask none
+  name mask_dx
+  xpos 0
+  ypos 1494
  }
  Output {
   name Output1
   xpos 0
-  ypos 1204
+  ypos 1656
  }
  Viewer {
   frame_range 1-100
   fps 25
-  viewerProcess "Rec.709 Alexa (Display)"
+  viewerProcess "Rec.709 Alexa (SL)"
   name Viewer1
-  xpos 377
-  ypos 1364
+  xpos 33
+  ypos 1755
  }
 end_group

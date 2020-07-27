@@ -1,12 +1,12 @@
-#! /home/patrick/Application/Nuke12.0v2/libnuke-12.0.2.so -nx
-version 12.0 v2
+#! Y:/Applications/nuke_12.1v1/nuke-12.1.1.dll -nx
+version 12.1 v1
 Group {
  inputs 2
  name "cgGrade"
+ knobChanged "node = nuke.thisNode()\nknob = nuke.thisKnob()\nfilterparm = \['lightfilter', 'componentfilter', 'invertcomponentfilter', 'invertlightfilter']\nfor k in filterparm:\n    if knob.name() == k:\n        cgRaw.update_insides(node)"
  tile_color 0x151515ff
  label "light: \[value lightfilter]\nlobe: \[value componentfilter]"
  note_font_color 0x68f2ff
- knobChanged "node = nuke.thisNode()\nknob = nuke.thisKnob()\nfilterparm = \['lightfilter', 'componentfilter', 'invertcomponentfilter', 'invertlightfilter']\nfor k in filterparm:\n    if knob.name() == k:\n        cgRaw.update_insides(node)"
  addUserKnob {20 grade l Grade}
  addUserKnob {1 lightfilter l Lights t "type the name of the lights you want to select, seperated by sapces. \"*\" selects every light in the scene"}
  lightfilter *
@@ -17,7 +17,7 @@ Group {
  addUserKnob {22 componentselector l select -STARTLINE T cgRaw.selection_panel('component')}
  addUserKnob {6 invertcomponentfilter l invert t "inverts component filter" -STARTLINE}
  addUserKnob {22 force_update l update T cgRaw.update_insides(nuke.thisNode()) +STARTLINE}
- addUserKnob {26 ""}
+ addUserKnob {26 "" +STARTLINE}
  addUserKnob {41 blackpoint T master.blackpoint}
  addUserKnob {41 whitepoint T master.whitepoint}
  addUserKnob {41 black l lift T master.black}
@@ -28,11 +28,12 @@ Group {
  addUserKnob {41 reverse T master.reverse}
  addUserKnob {41 black_clamp l "black clamp" -STARTLINE T master.black_clamp}
  addUserKnob {41 white_clamp l "white clamp" -STARTLINE T master.white_clamp}
- addUserKnob {26 "" l mask T ""}
- addUserKnob {41 maskChannelInput l "" -STARTLINE T master.maskChannelInput}
- addUserKnob {41 inject -STARTLINE T master.inject}
- addUserKnob {41 invert_mask l invert -STARTLINE T master.invert_mask}
- addUserKnob {41 fringe -STARTLINE T master.fringe}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {41 maskChannelMask l mask T mask_dx.maskChannelMask}
+ addUserKnob {41 maskChannelInput l "" -STARTLINE T mask_dx.maskChannelInput}
+ addUserKnob {41 inject -STARTLINE T mask_dx.inject}
+ addUserKnob {41 invert_mask l invert -STARTLINE T mask_dx.invert_mask}
+ addUserKnob {41 fringe -STARTLINE T mask_dx.fringe}
  addUserKnob {41 unpremult l "(un)premult by" T master.unpremult}
  addUserKnob {26 "" l "mix luminance" T ""}
  addUserKnob {41 enable_mix_luminance l "" -STARTLINE T master.enable_mix_luminance}
@@ -41,48 +42,76 @@ Group {
 }
  Input {
   inputs 0
-  name mask
-  xpos 330
-  ypos -115
-  number 1
- }
- Input {
-  inputs 0
   name rendering
   xpos 0
   ypos -181
  }
-add_layer {rim_lgh_col_sss rim_lgh_col_sss.red rim_lgh_col_sss.green rim_lgh_col_sss.blue}
+set N3f40b400 [stack 0]
+ Input {
+  inputs 0
+  name mask
+  xpos 250
+  ypos -160
+  number 1
+ }
+ Switch {
+  inputs 2
+  which {{"1-\[exists parent.input1]" x59 0}}
+  name Switch1
+  xpos 250
+  ypos -48
+ }
+ Invert {
+  name Invert1
+  xpos 250
+  ypos 12
+ }
+ Dot {
+  name Dot3
+  xpos 284
+  ypos 1554
+ }
+push $N3f40b400
+ Dot {
+  name Dot1
+  xpos -152
+  ypos -12
+ }
+ Dot {
+  name Dot2
+  xpos -152
+  ypos 1554
+ }
+push $N3f40b400
+add_layer {gi_col_right gi_col_right.red gi_col_right.green gi_col_right.blue}
  Grade {
-  inputs 1+1
-  channels rim_lgh_col_sss
+  channels gi_col_right
+  maskChannelMask none
+  maskChannelInput -rgba.red
   name master
   xpos 0
-  ypos 4
+  ypos -6
  }
  Expression {
-  temp_expr0 _col_
   expr0 "\[join \[lsearch -inline -all \[channels this] *_col_*.red*] +]"
   expr1 "\[join \[lsearch -inline -all \[channels this] *_col_*.green*] +]"
   expr2 "\[join \[lsearch -inline -all \[channels this] *_col_*.blue*] +]"
+  channel3 {none none none -rgba.alpha}
   name develope
   xpos 0
-  ypos 1168
+  ypos 1498
  }
-set N66c7120 [stack 0]
+ Dissolve {
+  inputs 2+1
+  which 1
+  maskChannelMask none
+  name mask_dx
+  xpos 0
+  ypos 1544
+ }
  Output {
   name Output1
   xpos 0
-  ypos 1206
- }
-push $N66c7120
- Viewer {
-  frame 0
-  frame_range 1-100
-  fps 25
-  viewerProcess "Rec.709 Alexa (Display)"
-  name Viewer1
-  xpos 377
-  ypos 1364
+  ypos 1697
  }
 end_group
