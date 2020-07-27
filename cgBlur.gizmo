@@ -1,6 +1,6 @@
 #! Y:/Applications/nuke_12.1v1/nuke-12.1.1.dll -nx
 version 12.1 v1
-Gizmo {
+Group {
  inputs 2
  name "cgBlur"
  knobChanged "node = nuke.thisNode()\nknob = nuke.thisKnob()\nfilterparm = \['lightfilter', 'componentfilter', 'invertcomponentfilter', 'invertlightfilter']\nfor k in filterparm:\n    if knob.name() == k:\n        cgRaw.update_insides(node)"
@@ -29,6 +29,8 @@ Gizmo {
  addUserKnob {41 invert_mask l invert -STARTLINE T mask_dx.invert_mask}
  addUserKnob {41 fringe -STARTLINE T mask_dx.fringe}
  addUserKnob {41 mix T master.mix}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {26 info l "" t "cgRaw v0.1.4" +STARTLINE T "<span style=\"color:#666\"><b>cgRaw v0.1.4 by Patrick Zeller</b> - <a href=\"https://github.com/PatrickZeller/\" style=\"color:#666;text-decoration: none;\">github</a></span>"}
 }
  Input {
   inputs 0

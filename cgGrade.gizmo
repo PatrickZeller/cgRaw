@@ -17,7 +17,7 @@ Group {
  addUserKnob {22 componentselector l select -STARTLINE T cgRaw.selection_panel('component')}
  addUserKnob {6 invertcomponentfilter l invert t "inverts component filter" -STARTLINE}
  addUserKnob {22 force_update l update T cgRaw.update_insides(nuke.thisNode()) +STARTLINE}
- addUserKnob {26 "" +STARTLINE}
+ addUserKnob {26 ""}
  addUserKnob {41 blackpoint T master.blackpoint}
  addUserKnob {41 whitepoint T master.whitepoint}
  addUserKnob {41 black l lift T master.black}
@@ -28,7 +28,7 @@ Group {
  addUserKnob {41 reverse T master.reverse}
  addUserKnob {41 black_clamp l "black clamp" -STARTLINE T master.black_clamp}
  addUserKnob {41 white_clamp l "white clamp" -STARTLINE T master.white_clamp}
- addUserKnob {26 "" +STARTLINE}
+ addUserKnob {26 ""}
  addUserKnob {41 maskChannelMask l mask T mask_dx.maskChannelMask}
  addUserKnob {41 maskChannelInput l "" -STARTLINE T mask_dx.maskChannelInput}
  addUserKnob {41 inject -STARTLINE T mask_dx.inject}
@@ -39,6 +39,8 @@ Group {
  addUserKnob {41 enable_mix_luminance l "" -STARTLINE T master.enable_mix_luminance}
  addUserKnob {41 mix_luminance l "" -STARTLINE T master.mix_luminance}
  addUserKnob {41 mix T master.mix}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {26 info l "" t "cgRaw v0.1.4" +STARTLINE T "<span style=\"color:#666\"><b>cgRaw v0.1.4 by Patrick Zeller</b> - <a href=\"https://github.com/PatrickZeller/\" style=\"color:#666;text-decoration: none;\">github</a></span>"}
 }
  Input {
   inputs 0
@@ -46,7 +48,7 @@ Group {
   xpos 0
   ypos -181
  }
-set N3f40b400 [stack 0]
+set Ne9f8f400 [stack 0]
  Input {
   inputs 0
   name mask
@@ -58,20 +60,23 @@ set N3f40b400 [stack 0]
   inputs 2
   which {{"1-\[exists parent.input1]" x59 0}}
   name Switch1
+  selected true
   xpos 250
   ypos -48
  }
  Invert {
   name Invert1
+  selected true
   xpos 250
   ypos 12
  }
  Dot {
   name Dot3
+  selected true
   xpos 284
   ypos 1554
  }
-push $N3f40b400
+push $Ne9f8f400
  Dot {
   name Dot1
   xpos -152
@@ -79,10 +84,11 @@ push $N3f40b400
  }
  Dot {
   name Dot2
+  selected true
   xpos -152
   ypos 1554
  }
-push $N3f40b400
+push $Ne9f8f400
 add_layer {gi_col_right gi_col_right.red gi_col_right.green gi_col_right.blue}
  Grade {
   channels gi_col_right
@@ -93,11 +99,13 @@ add_layer {gi_col_right gi_col_right.red gi_col_right.green gi_col_right.blue}
   ypos -6
  }
  Expression {
+  temp_expr0 _col_
   expr0 "\[join \[lsearch -inline -all \[channels this] *_col_*.red*] +]"
   expr1 "\[join \[lsearch -inline -all \[channels this] *_col_*.green*] +]"
   expr2 "\[join \[lsearch -inline -all \[channels this] *_col_*.blue*] +]"
   channel3 {none none none -rgba.alpha}
   name develope
+  selected true
   xpos 0
   ypos 1498
  }
@@ -106,6 +114,7 @@ add_layer {gi_col_right gi_col_right.red gi_col_right.green gi_col_right.blue}
   which 1
   maskChannelMask none
   name mask_dx
+  selected true
   xpos 0
   ypos 1544
  }

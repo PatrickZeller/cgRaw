@@ -1,17 +1,19 @@
-#! /home/patrick/Application/Nuke12.0v2/libnuke-12.0.2.so -nx
-version 12.0 v2
+#! Y:/Applications/nuke_12.1v1/nuke-12.1.1.dll -nx
+version 12.1 v1
 Group {
  inputs 2
  name "cgAddCustom"
+ knobChanged "node = nuke.thisNode()\nknob = nuke.thisKnob()\nfilterparm = \['lightname', 'componentname']\nfor k in filterparm:\n    if knob.name() == k:\n        cgRaw.update_addcustom(node)"
  tile_color 0x151515ff
  label "light: \[value lightname]\nlobe: \[value componentname]"
  note_font_color 0x68f2ff
- knobChanged "node = nuke.thisNode()\nknob = nuke.thisKnob()\nfilterparm = \['lightname', 'componentname']\nfor k in filterparm:\n    if knob.name() == k:\n        cgRaw.update_addcustom(node)"
  addUserKnob {20 settings l Settings}
  addUserKnob {1 lightname l Light t "input the name of the light you want to add"}
  lightname custom
  addUserKnob {1 componentname l Lobe t "input the name of the component/lobe you want to add" -STARTLINE}
  componentname custom
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {26 info l "" t "cgRaw v0.1.4" +STARTLINE T "<span style=\"color:#666\"><b>cgRaw v0.1.4 by Patrick Zeller</b> - <a href=\"https://github.com/PatrickZeller/\" style=\"color:#666;text-decoration: none;\">github</a></span>"}
 }
  Input {
   inputs 0
@@ -33,6 +35,7 @@ Group {
   blue blue
   out rgb
   name addCustom
+  selected true
   xpos 503
   ypos -779
  }

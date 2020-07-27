@@ -1,13 +1,15 @@
 #! Y:/Applications/nuke_12.1v1/nuke-12.1.1.dll -nx
 version 12.1 v1
-Gizmo {
- name "cgErrorCheck"
+Group {
  tile_color 0x151515ff
+ name "cgErrorCheck"
  note_font_color 0x68f2ff
  addUserKnob {20 settings}
  addUserKnob {6 preview t "shows the error of the pass composition" +STARTLINE}
  addUserKnob {6 fix t "adds a channel that fixes the missing information" +STARTLINE}
  fix true
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {26 info l "" t "cgRaw v0.1.4" +STARTLINE T "<span style=\"color:#666\"><b>cgRaw v0.1.4 by Patrick Zeller</b> - <a href=\"https://github.com/PatrickZeller/\" style=\"color:#666;text-decoration: none;\">github</a></span>"}
 }
  Input {
   inputs 0

@@ -23,6 +23,8 @@ Group {
  addUserKnob {41 inject -STARTLINE T mask_dx.inject}
  addUserKnob {41 invert_mask l invert -STARTLINE T mask_dx.invert_mask}
  addUserKnob {41 fringe -STARTLINE T mask_dx.fringe}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {26 info l "" t "cgRaw v0.1.4" +STARTLINE T "<span style=\"color:#666\"><b>cgRaw v0.1.4 by Patrick Zeller</b> - <a href=\"https://github.com/PatrickZeller/\" style=\"color:#666;text-decoration: none;\">github</a></span>"}
 }
  Input {
   inputs 0
@@ -30,7 +32,7 @@ Group {
   xpos 0
   ypos -181
  }
-set Nad0a7c00 [stack 0]
+set Ne9fc9800 [stack 0]
  Input {
   inputs 0
   name mask
@@ -55,7 +57,7 @@ set Nad0a7c00 [stack 0]
   xpos 288
   ypos 189
  }
-push $Nad0a7c00
+push $Ne9fc9800
  Dot {
   name Dot1
   xpos -148
@@ -66,7 +68,7 @@ push $Nad0a7c00
   xpos -148
   ypos 189
  }
-push $Nad0a7c00
+push $Ne9fc9800
  Expression {
   channel3 {none none none -rgba.alpha}
   name master
