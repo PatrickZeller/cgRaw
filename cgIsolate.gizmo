@@ -80,6 +80,7 @@ push $Ne9fc9800
   which 1
   maskChannelMask none
   name mask_dx
+  disable {{maskChannelMask>0?0:1}}
   xpos 0
   ypos 179
  }

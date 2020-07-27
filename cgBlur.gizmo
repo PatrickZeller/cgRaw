@@ -81,7 +81,6 @@ push $Nab7dc000
   ypos -79
  }
  Expression {
-  temp_expr0 _col_
   expr0 "\[join \[lsearch -inline -all \[channels this] *_col_*.red*] +]"
   expr1 "\[join \[lsearch -inline -all \[channels this] *_col_*.green*] +]"
   expr2 "\[join \[lsearch -inline -all \[channels this] *_col_*.blue*] +]"
@@ -94,6 +93,7 @@ push $Nab7dc000
   which 1
   maskChannelMask none
   name mask_dx
+  disable {{maskChannelMask>0?0:1}}
   xpos 0
   ypos 1500
  }

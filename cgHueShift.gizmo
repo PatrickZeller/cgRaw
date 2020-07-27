@@ -106,6 +106,7 @@ push $Nab7dd400
   maskChannelMask none
   name mask_dx
   selected true
+  disable {{maskChannelMask>0?0:1}}
   xpos 0
   ypos 1494
  }

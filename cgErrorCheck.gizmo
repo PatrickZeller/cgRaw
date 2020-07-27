@@ -43,7 +43,6 @@ set Nb6c4c400 [stack 0]
 push $Nb6c4cc00
 push $Nb6c4cc00
  Expression {
-  temp_expr0 _col_
   expr0 "\[join \[lsearch -inline -all \[channels this] *_col_*.red*] +]"
   expr1 "\[join \[lsearch -inline -all \[channels this] *_col_*.green*] +]"
   expr2 "\[join \[lsearch -inline -all \[channels this] *_col_*.blue*] +]"

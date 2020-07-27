@@ -39,7 +39,7 @@ Group {
  addUserKnob {41 enable_mix_luminance l "" -STARTLINE T master.enable_mix_luminance}
  addUserKnob {41 mix_luminance l "" -STARTLINE T master.mix_luminance}
  addUserKnob {41 mix T master.mix}
- addUserKnob {26 "" +STARTLINE}
+ addUserKnob {26 ""}
  addUserKnob {26 info l "" t "cgRaw v0.1.4" +STARTLINE T "<span style=\"color:#666\"><b>cgRaw v0.1.4 by Patrick Zeller</b> - <a href=\"https://github.com/PatrickZeller/\" style=\"color:#666;text-decoration: none;\">github</a></span>"}
 }
  Input {
@@ -48,7 +48,7 @@ Group {
   xpos 0
   ypos -181
  }
-set Ne9f8f400 [stack 0]
+set N9fe2e800 [stack 0]
  Input {
   inputs 0
   name mask
@@ -60,23 +60,21 @@ set Ne9f8f400 [stack 0]
   inputs 2
   which {{"1-\[exists parent.input1]" x59 0}}
   name Switch1
-  selected true
   xpos 250
   ypos -48
  }
  Invert {
+  maskChannelMask none
   name Invert1
-  selected true
   xpos 250
   ypos 12
  }
  Dot {
   name Dot3
-  selected true
   xpos 284
   ypos 1554
  }
-push $Ne9f8f400
+push $N9fe2e800
  Dot {
   name Dot1
   xpos -152
@@ -84,14 +82,13 @@ push $Ne9f8f400
  }
  Dot {
   name Dot2
-  selected true
   xpos -152
   ypos 1554
  }
-push $Ne9f8f400
-add_layer {gi_col_right gi_col_right.red gi_col_right.green gi_col_right.blue}
+push $N9fe2e800
+add_layer {diffuse_col_top diffuse_col_top.red diffuse_col_top.green diffuse_col_top.blue}
  Grade {
-  channels gi_col_right
+  channels diffuse_col_top
   maskChannelMask none
   maskChannelInput -rgba.red
   name master
@@ -99,24 +96,23 @@ add_layer {gi_col_right gi_col_right.red gi_col_right.green gi_col_right.blue}
   ypos -6
  }
  Expression {
-  temp_expr0 _col_
   expr0 "\[join \[lsearch -inline -all \[channels this] *_col_*.red*] +]"
   expr1 "\[join \[lsearch -inline -all \[channels this] *_col_*.green*] +]"
   expr2 "\[join \[lsearch -inline -all \[channels this] *_col_*.blue*] +]"
   channel3 {none none none -rgba.alpha}
+  maskChannelMask none
   name develope
-  selected true
   xpos 0
-  ypos 1498
+  ypos 1499
  }
  Dissolve {
   inputs 2+1
   which 1
   maskChannelMask none
   name mask_dx
-  selected true
   xpos 0
   ypos 1544
+  disable {{maskChannelMask>0?0:1}}
  }
  Output {
   name Output1
