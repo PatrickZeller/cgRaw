@@ -9,7 +9,7 @@ Download the latest release and extract its contents to your .nuke directory int
 add the line "nuke.pluginAddPath("cgRaw")" to your ini.py file 
 now you are ready to go ;)
 
-## Setting up you AOVs to work with cgRaw
+## Setting up your AOVs to work with cgRaw
 To make cgRaw aware of what AOV it needs to combine to recreate the beauty, 
 you need to tag all AOVs that contribute to the beauty image with "col".
 the ideal nameing convention is %lightname%_col_%lobename%.
