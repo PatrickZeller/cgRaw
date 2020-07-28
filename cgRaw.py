@@ -3,14 +3,12 @@ import re
 
 
 def filter_check(filter):
-
-    if len(filter) == 1:
-        if filter[0] == "*":
-            filter = "(.*)"
-        else:
-            filter = filter[0]
+    exclude = [ "^" + i[1:].replace("*", ".*") + "$" for i in filter if i[0] == "^"]
+    include = [ "^" + i.replace("*", ".*") + "$" for i in filter if not i[0] == "^"]
+    if exclude == []:
+        filter = re.compile("|".join(include)) 
     else:
-        filter = re.compile("|".join(filter))
+        filter = re.compile("^(?!{exclude_str}){include_str}$".format(exclude_str = "|".join(exclude), include_str = "|".join(include))) 
     return filter
 
 
@@ -25,19 +23,21 @@ def selection_filter(node):
     componentfilter = node.knob("componentfilter").getValue().split(" ")
 
     if node.knob("invertlightfilter").getValue() == 0:
-        collection = [i for i in coloraovs if re.search(filter_check(lightfilter), i)]
+        collection = [
+            i for i in coloraovs if re.search(filter_check(lightfilter), i.split('_col_')[0])
+        ]
     else:
         collection = [
-            i for i in coloraovs if not re.search(filter_check(lightfilter), i)
+            i for i in coloraovs if not re.search(filter_check(lightfilter), i.split('_col_')[0])
         ]
 
     if node.knob("invertcomponentfilter").getValue() == 0:
         collection = [
-            i for i in collection if re.search(filter_check(componentfilter), i)
+            i for i in collection if re.search(filter_check(componentfilter), i.split('_col_')[1])
         ]
     else:
         collection = [
-            i for i in collection if not re.search(filter_check(componentfilter), i)
+            i for i in collection if not re.search(filter_check(componentfilter), i.split('_col_')[1])
         ]
 
     return collection
@@ -54,11 +54,11 @@ def selection_panel(layerset):
         lightfilter = nuke.thisNode()["lightfilter"].getValue().split(" ")
         if nuke.thisNode().knob("invertlightfilter").getValue() == 0:
             collection = [
-                i for i in coloraovs if re.search(filter_check(lightfilter), i)
+                i for i in coloraovs if re.search(filter_check(lightfilter), i.split('_col_')[0])
             ]
         else:
             collection = [
-                i for i in coloraovs if not re.search(filter_check(lightfilter), i)
+                i for i in coloraovs if not re.search(filter_check(lightfilter), i.split('_col_')[0])
             ]
         coloraovs = set([i.split("_col_")[1] for i in collection])
     p = nuke.Panel("select " + layerset)

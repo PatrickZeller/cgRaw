@@ -13,7 +13,7 @@ Group {
  addUserKnob {1 componentname l Lobe t "input the name of the component/lobe you want to add" -STARTLINE}
  componentname custom
  addUserKnob {26 "" +STARTLINE}
- addUserKnob {26 info l "" t "cgRaw v0.1.4" +STARTLINE T "<span style=\"color:#666\"><b>cgRaw v0.1.4 by Patrick Zeller</b> - <a href=\"https://github.com/PatrickZeller/\" style=\"color:#666;text-decoration: none;\">github</a></span>"}
+ addUserKnob {26 info l "" t "cgRaw v0.1.5" +STARTLINE T "<span style=\"color:#666\"><b>cgRaw v0.1.5 by Patrick Zeller</b> - <a href=\"https://github.com/PatrickZeller/\" style=\"color:#666;text-decoration: none;\">github</a></span>"}
 }
  Input {
   inputs 0
